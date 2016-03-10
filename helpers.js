@@ -148,4 +148,36 @@ Example:
    */
   __registerSeleniumHelper('wait');
 
+  /**
+  Triggers the given DOM event on the element identified by the provided selector.
+
+  Example:
+
+  ```javascript
+  __seleniumTriggerEvent('#some-elem-id', 'blur', function(response) {
+    // triggerEvent operation has completed (success or failure)
+    // success: response === { status: 'success', payload: undefined };
+    // failure: response === { status: 'failure', payload: reason };
+  });
+  ```
+
+  This is actually used internally by the `keyEvent` helper like so:
+
+  ```javascript
+  triggerEvent('#some-elem-id', 'keypress', { keyCode: 13 }, function(response) {
+    // triggerEvent operation has completed (success or failure)
+    // success: response === { status: 'success', payload: undefined };
+    // failure: response === { status: 'failure', payload: reason };
+  });
+  ```
+
+  @method triggerEvent
+  @param {String} selector jQuery selector for finding element on the DOM
+  @param {String} [context] jQuery selector that will limit the selector
+                             argument to find only within the context's children
+  @param {String} type The event type to be triggered.
+  @param {Object} [options] The options to be passed to jQuery.Event.
+  @param {Function} callback the selenium executeSyncScript completion callback
+  */
+   __registerSeleniumHelper('triggerEvent');
 };
