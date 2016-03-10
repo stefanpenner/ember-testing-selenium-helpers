@@ -35,15 +35,17 @@ function __seleniumToEmberTestHelper() {
   });
 }
 
-function __registerSeleniumHelper(helperName) {
-  self['__selenium' + Ember.String.capitalize(helperName)] = function() {
-    var args = new Array(arguments.length + 1);
-    args[0] = helperName;
-    for (var i = 0; i < arguments.length; i++) {
-      args[i + 1] = arguments[i];
-    }
-    return __seleniumToEmberTestHelper.apply(null, args);
-  };
+function __registerSeleniumHelper(helperName, _processArgs) {
+	var processArgs = typeof _processArgs === 'function' ? _processArgs : function() { return arguments; };
+
+	self['__selenium' + Ember.String.capitalize(helperName)] = function() {
+		var args = new Array(arguments.length + 1);
+		args[0] = helperName;
+		for (var i = 0; i < arguments.length; i++) {
+			args[i + 1] = arguments[i];
+		}
+		return __seleniumToEmberTestHelper.apply(null, processArgs.apply(null, args));
+	};
 }
 
 function __registerSeleniumHelpers() {
@@ -86,7 +88,13 @@ Example:
   @param {String} selector jQuery selector for finding element on the DOM
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('click');
+  __registerSeleniumHelper('click', function(helperName, selector, callback) {
+	  return [
+		  helperName,
+		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+		  callback
+	  ];
+  });
 
   /**
   Simulates a key event, e.g. `keypress`, `keydown`, `keyup` with the desired keyCode
@@ -107,7 +115,14 @@ Example:
   @param {Number} keyCode the keyCode of the simulated key event
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('keyEvent');
+  __registerSeleniumHelper('keyEvent', function(selector, type, keyCode, callback) {
+	  return [
+		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+		  type,
+		  keyCode,
+		  callback
+	  ];
+  });
 
   /**
   Fills in an input element with some text.
@@ -128,7 +143,13 @@ Example:
   @param {String} text text to place inside the input element
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('fillIn');
+  __registerSeleniumHelper('fillIn', function(selector, text, callback) {
+	  return [
+		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+		  text,
+		  callback
+	  ];
+  });
 
   /**
   Causes the run loop to process any pending events. This is used to ensure that
@@ -184,5 +205,28 @@ Example:
   @param {Object} [options] The options to be passed to jQuery.Event.
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-   __registerSeleniumHelper('triggerEvent');
+   __registerSeleniumHelper('triggerEvent', function(selector, context, type, options, callback) {
+	 return [
+		selector,
+		context,
+		type,
+		options,
+		callback
+	 ].filter(Boolean);
+   });
 };
+
+function __seleniumIsXPath(string) {
+	return string.indexOf('/') !== -1
+}
+
+function __seleniumXPath(STR_XPATH) {
+    var xresult = document.evaluate(STR_XPATH, document, null, XPathResult.ANY_TYPE, null);
+    var xnodes = [];
+    var xres;
+    while (xres = xresult.iterateNext()) {
+        xnodes.push(xres);
+    }
+
+    return xnodes;
+}
