@@ -40,9 +40,9 @@ function __registerSeleniumHelper(helperName) {
     var args = new Array(arguments.length + 1);
     args[0] = helperName;
     for (var i = 1; i < args.length; i++) {
-      args[i] = arguments[1];
+      args[i] = arguments[i];
     }
-    return __seleniumToEmberTestHelper(helperName, arguments);
+    return __seleniumToEmberTestHelper(helperName, args);
   };
 }
 
