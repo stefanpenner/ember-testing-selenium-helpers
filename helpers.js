@@ -42,7 +42,7 @@ function __registerSeleniumHelper(helperName) {
     for (var i = 0; i < arguments.length; i++) {
       args[i + 1] = arguments[i];
     }
-    return __seleniumToEmberTestHelper(helperName, args);
+    return __seleniumToEmberTestHelper.apply(null, args);
   };
 }
 
