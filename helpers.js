@@ -17,7 +17,7 @@ function __seleniumToEmberTestHelper() {
   }
 
   for (var i = 1; i < arguments.length - 1; i++) {
-    args[i] = arguments[i];
+    args[i - 1] = arguments[i];
   }
 
   return new Ember.RSVP.Promise(function(resolve) {
