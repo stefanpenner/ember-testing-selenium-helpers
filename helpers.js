@@ -39,8 +39,8 @@ function __registerSeleniumHelper(helperName) {
   self['__selenium' + Ember.String.capitalize(helperName)] = function() {
     var args = new Array(arguments.length + 1);
     args[0] = helperName;
-    for (var i = 1; i < args.length; i++) {
-      args[i] = arguments[i];
+    for (var i = 0; i < arguments.length; i++) {
+      args[i + 1] = arguments[i];
     }
     return __seleniumToEmberTestHelper(helperName, args);
   };
