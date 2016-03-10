@@ -47,13 +47,13 @@ function __registerSeleniumHelpers() {
     with the route as though a real user had triggered the route change while
     using your app.
 
-Example:
+  Example:
 
-```javascript
-__seleniumVisit('posts/index', function(response) {
-  // click operation has completed (success or failure)
-  // success: response === { status: 'success', payload: theResult };
-  // failure: response === { status: 'failure', payload: reason };
+  ```javascript
+  __seleniumVisit('posts/index', function(response) {
+    // click operation has completed (success or failure)
+    // success: response === { status: 'success', payload: theResult };
+    // failure: response === { status: 'failure', payload: reason };
   });
   ```
 
@@ -70,10 +70,10 @@ __seleniumVisit('posts/index', function(response) {
 Example:
 
 ```javascript
-__seleniumClick('.some-jQuery-selector', function(response) {
-  //  clickoperation has completed (success or failure)
-  // success: response === { status: 'success', payload: theResult };
-  // failure: response === { status: 'failure', payload: reason };
+  __seleniumClick('.some-jQuery-selector', function(response) {
+    //  clickoperation has completed (success or failure)
+    // success: response === { status: 'success', payload: theResult };
+    // failure: response === { status: 'failure', payload: reason };
   });
   ```
 
@@ -84,15 +84,15 @@ __seleniumClick('.some-jQuery-selector', function(response) {
   __registerSeleniumHelper('click');
 
   /**
-    Simulates a key event, e.g. `keypress`, `keydown`, `keyup` with the desired keyCode
+  Simulates a key event, e.g. `keypress`, `keydown`, `keyup` with the desired keyCode
 
-Example:
+  Example:
 
-```javascript
-__seleniumKeyEvent('.some-jQuery-selector', 'keypress', 13, function(response) {
-  // keyEvent operation has completed (success or failure)
-  // success: response === { status: 'success', payload: theResult };
-  // failure: response === { status: 'failure', payload: reason };
+  ```javascript
+  __seleniumKeyEvent('.some-jQuery-selector', 'keypress', 13, function(response) {
+    // keyEvent operation has completed (success or failure)
+    // success: response === { status: 'success', payload: theResult };
+    // failure: response === { status: 'failure', payload: reason };
   });
   ```
 
@@ -105,45 +105,46 @@ __seleniumKeyEvent('.some-jQuery-selector', 'keypress', 13, function(response) {
   __registerSeleniumHelper('keyEvent');
 
   /**
-    Fills in an input element with some text.
+  Fills in an input element with some text.
 
-Example:
+  Example:
 
-```javascript
-__seleniumFillIn('#email', 'you@example.com', function(response) {
-// fillIn operation has completed (success or failure)
-// success: response === { status: 'success', payload: theResult };
-// failure: response === { status: 'failure', payload: reason };
-});
-```
+  ```javascript
+  __seleniumFillIn('#email', 'you@example.com', function(response) {
+    // fillIn operation has completed (success or failure)
+    // success: response === { status: 'success', payload: theResult };
+    // failure: response === { status: 'failure', payload: reason };
+  });
+  ```
 
-@method __seleniumFillIn
-@param {String} selector jQuery selector finding an input element on the DOM
-to fill text with
-@param {String} text text to place inside the input element
-@param {Function} callback the selenium executeSyncScript completion callback
-*/
+  @method __seleniumFillIn
+  @param {String} selector jQuery selector finding an input element on the DOM
+  to fill text with
+  @param {String} text text to place inside the input element
+  @param {Function} callback the selenium executeSyncScript completion callback
+  */
   __registerSeleniumHelper('fillIn');
 
   /**
-    Causes the run loop to process any pending events. This is used to ensure that
-    any async operations from other helpers (or your assertions) have been processed.
+  Causes the run loop to process any pending events. This is used to ensure that
+  any async operations from other helpers (or your assertions) have been processed.
 
-    This is most often used as the return value for the helper functions (see 'click',
-    'fillIn','visit',etc).
+  This is most often used as the return value for the helper functions (see 'click',
+  'fillIn','visit',etc).
 
-    Example:
+  Example:
 
-    ```javascript
-    __seleniumWait(function(response) {
-  // wait operation has completed (success or failure)
-  // success: response === { status: 'success', payload: undefined };
-  // failure: response === { status: 'failure', payload: reason };
+  ```javascript
+  __seleniumWait(function(response) {
+    // wait operation has completed (success or failure)
+    // success: response === { status: 'success', payload: undefined };
+    // failure: response === { status: 'failure', payload: reason };
   });
+  ```
 
   @method wait
   @param {Object} value The value to be returned.
-   * @param {Function} callback the selenium executeSyncScript completion callback
+  @param {Function} callback the selenium executeSyncScript completion callback
    */
   __registerSeleniumHelper('wait');
 
