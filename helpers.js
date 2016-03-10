@@ -21,7 +21,7 @@ function __seleniumToEmberTestHelper() {
   }
 
   return new Ember.RSVP.Promise(function(resolve) {
-    resolve(self[helperName].apply(null, args));
+    resolve(helperFn.apply(self, args));
   }).then(function(value) {
     callback({
       status: 'success',
@@ -36,8 +36,13 @@ function __seleniumToEmberTestHelper() {
 }
 
 function __registerSeleniumHelper(helperName) {
-  self[helperName] = function() {
-    return __seleniumToEmberTestHelper('triggerEvent', arguments);
+  self['__selenium' + Ember.String.capitalize(helperName)] = function() {
+    var args = new Array(arguments.length + 1);
+    args[0] = helperName;
+    for (var i = 1; i < args.length; i++) {
+      args[i] = arguments[1];
+    }
+    return __seleniumToEmberTestHelper(helperName, arguments);
   };
 }
 
