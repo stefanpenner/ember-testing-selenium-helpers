@@ -85,7 +85,7 @@ Example:
   ```
 
   @method __seleniumClick
-  @param {String} selector jQuery selector for finding element on the DOM
+  @param {String|HTMLElement|XPath} selector for an element in the dom
   @param {Function} callback the selenium executeSyncScript completion callback
   */
   __registerSeleniumHelper('click', function(helperName, selector, callback) {
@@ -110,7 +110,7 @@ Example:
   ```
 
   @method __seleniumKeyEvent
-  @param {String} selector jQuery selector for finding element on the DOM
+  @param {String|HTMLElement|XPath} selector for an element in the dom
   @param {String} type the type of key event, e.g. `keypress`, `keydown`, `keyup`
   @param {Number} keyCode the keyCode of the simulated key event
   @param {Function} callback the selenium executeSyncScript completion callback
@@ -138,8 +138,7 @@ Example:
   ```
 
   @method __seleniumFillIn
-  @param {String} selector jQuery selector finding an input element on the DOM
-  to fill text with
+  @param {String|HTMLElement|XPath} selector for an element in the dom
   @param {String} text text to place inside the input element
   @param {Function} callback the selenium executeSyncScript completion callback
   */
@@ -198,7 +197,7 @@ Example:
   ```
 
   @method triggerEvent
-  @param {String} selector jQuery selector for finding element on the DOM
+  @param {String|HTMLElement|XPath} selector jQuery selector for finding element on the DOM
   @param {String} [context] jQuery selector that will limit the selector
                              argument to find only within the context's children
   @param {String} type The event type to be triggered.
@@ -216,8 +215,8 @@ Example:
    });
 };
 
-function __seleniumIsXPath(string) {
-	return string.indexOf('/') !== -1
+function __seleniumIsXPath(selector) {
+	return typeof selector === 'string' && selector.indexOf('/') !== -1
 }
 
 function __seleniumXPath(STR_XPATH) {
