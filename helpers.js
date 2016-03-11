@@ -14,40 +14,57 @@ Ember.onLoad('Ember.Application', function(Application) {
   });
 });
 
+function emberRemote() {
+	return new Ember.RSVP.Promise(function(resolve) {
+		if (window.EMBER_REMOTE_APP) {
+			resolve(window.EMBER_REMOTE_APP);
+		}
+		else {
+			window.addEventListener('EMBER-REMOTE-ENABLED', function(event) {
+				resolve(event.detail);
+			});
+		}
+	}).then(function() {
+    return wait();
+  });
+}
+
 function __seleniumToEmberTestHelper() {
   var args = new Array(arguments.length);
   var helperName = arguments[0];
   var callback = arguments[arguments.length - 1];
+  for (var i = 1; i < arguments.length - 1; i++) {
+	  args[i - 1] = arguments[i];
+  }
 
   if (typeof helperName !== 'string') {
     throw new TypeError('first argument to a seleniumTestHelper should be a string');
   }
-  var helperFn = self[helperName];
-
-  if (typeof helperFn !== 'function') {
-    throw new TypeError('`' + helperName + '` was not found on global');
-  }
 
   if (typeof callback !== 'function') {
-    throw new TypeError('last argument to a seleniumTestHelper should be the selenium execAsyncScript completion callback');
+	  throw new TypeError('last argument to a seleniumTestHelper should be the selenium execAsyncScript completion callback');
   }
 
-  for (var i = 1; i < arguments.length - 1; i++) {
-    args[i - 1] = arguments[i];
-  }
+  return emberRemote().then(function() {
+	  var helperFn = self[helperName];
 
-  return new Ember.RSVP.Promise(function(resolve) {
-    resolve(helperFn.apply(self, args));
-  }).then(function(value) {
-    callback({
-      status: 'success',
-      payload: value
-    });
-  }).catch(function(reason) {
-    callback({
-      status: 'failure',
-      payload: reason
-    });
+	  if (typeof helperFn !== 'function') {
+		  throw new TypeError('`' + helperName + '` was not found on global');
+	  }
+
+	  return new Ember.RSVP.Promise(function(resolve) {
+		  resolve(helperFn.apply(self, args));
+	  }).then(function(value) {
+		  callback({
+			  status: 'success',
+			  payload: value
+		  });
+	  }).catch(function(reason) {
+		  callback({
+			  status: 'failure',
+			  payload: reason
+		  });
+	  });
   });
 }
 
