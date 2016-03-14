@@ -81,7 +81,6 @@ function __registerSeleniumHelper(helperName, _processArgs) {
 	};
 }
 
-function __registerSeleniumHelpers() {
   /**
     Loads a route, sets up any controllers, and renders any templates associated
     with the route as though a real user had triggered the route change while
@@ -101,7 +100,7 @@ function __registerSeleniumHelpers() {
   @param {String} url the name of the route
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('visit');
+__registerSeleniumHelper('visit');
 
   /**
     Clicks an element and triggers any actions triggered by the element's `click`
@@ -121,13 +120,13 @@ Example:
   @param {String|HTMLElement|XPath} selector for an element in the dom
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('click', function(helperName, selector, callback) {
-	  return [
-		  helperName,
-		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
-		  callback
-	  ];
-  });
+__registerSeleniumHelper('click', function(helperName, selector, callback) {
+  return [
+	  helperName,
+	  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+	  callback
+  ];
+});
 
   /**
   Simulates a key event, e.g. `keypress`, `keydown`, `keyup` with the desired keyCode
@@ -148,14 +147,15 @@ Example:
   @param {Number} keyCode the keyCode of the simulated key event
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('keyEvent', function(selector, type, keyCode, callback) {
-	  return [
-		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
-		  type,
-		  keyCode,
-		  callback
-	  ];
-  });
+__registerSeleniumHelper('keyEvent', function(helperName, selector, type, keyCode, callback) {
+  return [
+	  helperName,
+	  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+	  type,
+	  keyCode,
+	  callback
+  ];
+});
 
   /**
   Fills in an input element with some text.
@@ -175,13 +175,14 @@ Example:
   @param {String} text text to place inside the input element
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-  __registerSeleniumHelper('fillIn', function(selector, text, callback) {
-	  return [
-		  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
-		  text,
-		  callback
-	  ];
-  });
+__registerSeleniumHelper('fillIn', function(helperName, selector, text, callback) {
+  return [
+	  helperName,
+	  __seleniumIsXPath(selector) ? __seleniumXPath(selector) : selector,
+	  text,
+	  callback
+  ];
+});
 
   /**
   Causes the run loop to process any pending events. This is used to ensure that
@@ -204,7 +205,7 @@ Example:
   @param {Object} value The value to be returned.
   @param {Function} callback the selenium executeSyncScript completion callback
    */
-  __registerSeleniumHelper('wait');
+__registerSeleniumHelper('wait');
 
   /**
   Triggers the given DOM event on the element identified by the provided selector.
@@ -237,16 +238,16 @@ Example:
   @param {Object} [options] The options to be passed to jQuery.Event.
   @param {Function} callback the selenium executeSyncScript completion callback
   */
-   __registerSeleniumHelper('triggerEvent', function(selector, context, type, options, callback) {
-	 return [
+__registerSeleniumHelper('triggerEvent', function(helperName, selector, context, type, options, callback) {
+	return [
+		helperName,
 		selector,
 		context,
 		type,
 		options,
 		callback
-	 ].filter(Boolean);
-   });
-};
+	].filter(Boolean);
+});
 
 function __seleniumIsXPath(selector) {
 	return typeof selector === 'string' && selector.indexOf('/') !== -1
