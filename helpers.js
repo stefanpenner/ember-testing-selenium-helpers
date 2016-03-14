@@ -54,6 +54,18 @@ function __seleniumToEmberTestHelper() {
 		  throw new TypeError('`' + helperName + '` was not found on global');
 	  }
 
+	  var selector = args[0];
+	  var element;
+
+	  if (typeof selector === 'string') {
+		element = jQuery(selector);
+	  } else {
+		element = selector;
+	  }
+
+	  if (!(element instanceof HTMLElement)) {
+		throw new TypeError('no element for: `' + selector + '` found');
+	  }
 
 	  return new Ember.RSVP.Promise(function(resolve) {
 		  __seleniumLog(helperName, args);
