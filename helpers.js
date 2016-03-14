@@ -57,14 +57,16 @@ function __seleniumToEmberTestHelper() {
 	  var selector = args[0];
 	  var element;
 
-	  if (typeof selector === 'string') {
-		element = jQuery(selector);
-	  } else {
-		element = selector;
-	  }
+	  if (helperName !== 'wait' && helperName !== 'visit') {
+		  if (typeof selector === 'string') {
+			  element = jQuery(selector);
+		  } else {
+			  element = selector;
+		  }
 
-	  if (!(element instanceof HTMLElement)) {
-		throw new TypeError('no element for: `' + selector + '` found');
+		  if (!(element instanceof HTMLElement)) {
+			  throw new TypeError('no element for: `' + selector + '` found');
+		  }
 	  }
 
 	  return new Ember.RSVP.Promise(function(resolve) {
