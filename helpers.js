@@ -21,8 +21,10 @@ function emberRemote() {
 			});
 		}
 	}).then(function() {
-    return wait();
-  });
+		return wait();
+	});
+}
+
 
 function __seleniumLog() {
   typeof console !== 'undefined' && console.log.apply(console, arguments);
