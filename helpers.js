@@ -23,6 +23,9 @@ function emberRemote() {
 	}).then(function() {
     return wait();
   });
+
+function __seleniumLog() {
+  typeof console !== 'undefined' && console.log.apply(console, arguments);
 }
 
 function __seleniumToEmberTestHelper() {
@@ -41,6 +44,7 @@ function __seleniumToEmberTestHelper() {
 	  throw new TypeError('last argument to a seleniumTestHelper should be the selenium execAsyncScript completion callback');
   }
 
+  __seleniumLog('waiting to issue command:' , helperName);
   return emberRemote().then(function() {
 	  var helperFn = self[helperName];
 
@@ -48,14 +52,18 @@ function __seleniumToEmberTestHelper() {
 		  throw new TypeError('`' + helperName + '` was not found on global');
 	  }
 
+
 	  return new Ember.RSVP.Promise(function(resolve) {
+		  __seleniumLog(helperName, args);
 		  resolve(helperFn.apply(self, args));
 	  }).then(function(value) {
+		  __seleniumLog('succes', helperName, args);
 		  callback({
 			  status: 'success',
 			  payload: value
 		  });
 	  }).catch(function(reason) {
+		  __seleniumLog('failure', helperName, args, reason);
 		  callback({
 			  status: 'failure',
 			  payload: reason
