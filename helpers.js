@@ -74,7 +74,10 @@ function __seleniumToEmberTestHelper() {
 		  __seleniumLog('succes', helperName, args);
 		  callback({
 			  status: 'success',
-			  payload: value
+			  payload: {
+				  value: value,
+				  element: element
+			  }
 		  });
 	  }).catch(function(reason) {
 		  __seleniumLog('failure', helperName, args, reason);
