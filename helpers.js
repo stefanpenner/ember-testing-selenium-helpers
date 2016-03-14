@@ -65,7 +65,7 @@ function __seleniumToEmberTestHelper() {
 		  }
 
 		  if (!(element instanceof HTMLElement)) {
-			  throw new TypeError('no element for: `' + selector + '` found');
+			  throw new TypeError('attempting `' + helperName + '` but no element for: `' + selector + '` found');
 		  }
 	  }
 
