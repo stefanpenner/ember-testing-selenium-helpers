@@ -1,18 +1,14 @@
 window.EMBER_REMOTE_APP = null;
-Ember.onLoad('Ember.Application', function(Application) {
-  Application.initializer({
-    name: 'ember-remote-control',
-    initialize: function(container, application) {
-      Ember.setupForTesting();
-      Ember.Test.adapter = Ember.Test.Adapter.create()
-      application.injectTestHelpers();
-      window.EMBER_REMOTE_APP = application;
-      window.dispatchEvent(new Event("EMBER-REMOTE-ENABLED", {
-        detail: application
-      }));
-    }
-  });
-});
+
+function __seleniumApplicationInitializer(container, application) {
+	Ember.setupForTesting();
+	Ember.Test.adapter = Ember.Test.Adapter.create()
+	application.constructor.proto().injectTestHelpers.call(application);
+	window.EMBER_REMOTE_APP = application;
+	window.dispatchEvent(new Event("EMBER-REMOTE-ENABLED", {
+		detail: application
+	}));
+}
 
 function emberRemote() {
 	return new Ember.RSVP.Promise(function(resolve) {
